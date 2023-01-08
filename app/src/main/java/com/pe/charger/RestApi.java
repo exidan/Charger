@@ -1,11 +1,7 @@
-package com.gudkov.charger;
-
-import java.util.List;
+package com.pe.charger;
 
 import retrofit2.Call;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public interface RestApi {
 

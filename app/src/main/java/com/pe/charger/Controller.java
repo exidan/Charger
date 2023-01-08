@@ -1,4 +1,4 @@
-package com.gudkov.charger;
+package com.pe.charger;
 
 import android.util.Log;
 

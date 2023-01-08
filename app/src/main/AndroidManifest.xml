@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gudkov.charger">
+    package="com.pe.charger">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:name=".App"
+        android:name="com.pe.charger.App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/pe_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/pe_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Charger"
 
@@ -15,8 +15,8 @@
 
         >
 
-        <activity android:name=".SettingsActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name="com.pe.charger.SettingsActivity"></activity>
+        <activity android:name="com.pe.charger.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,7 +1,6 @@
-package com.gudkov.charger;
+package com.pe.charger;
 
 import android.app.Application;
-import android.widget.TextView;
 
 public class App extends Application {
     private static Current current =new Current();

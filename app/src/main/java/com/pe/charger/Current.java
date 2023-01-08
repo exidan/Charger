@@ -1,4 +1,4 @@
-package com.gudkov.charger;
+package com.pe.charger;
 
 public class Current {
     Integer cur;
