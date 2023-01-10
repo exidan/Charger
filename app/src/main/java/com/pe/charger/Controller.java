@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.pe.charger.enums.SettingsEnum;
 
 import java.util.TimerTask;
 
@@ -15,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Controller extends TimerTask implements Callback<Current> {
 
-    static final String BASE_URL = "https://13bdfc1c-1d65-49ef-bd16-70546c8d28c1.mock.pstmn.io";
+    static final String BASE_URL = "http://"+(String) App.getSetting(SettingsEnum.IP);
 
     Listner listner;
 
@@ -36,10 +37,11 @@ public class Controller extends TimerTask implements Callback<Current> {
 
         RestApi gerritAPI = retrofit.create(RestApi.class);
 
-        Call<Current> call = gerritAPI.loadRepo();
+        Call<Current> call = gerritAPI.getCur();
         call.enqueue(this);
 
     }
+
 
 
     @Override

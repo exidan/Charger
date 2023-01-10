@@ -15,7 +15,17 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.pe.charger.enums.SettingsEnum;
+
 import java.util.Timer;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, Controller.Listner {
     private ImageButton settingsButton;
@@ -29,12 +39,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             new ActivityResultCallback<ActivityResult>() {
                 @Override
                 public void onActivityResult(ActivityResult result) {
-        //           Integer currLim = Integer.valueOf(result.getData().getIntExtra("currLim",32));
+
                     Integer currLim = Integer.valueOf(settings.getInt("currentLim",32));
                     currentSeekBar.setMax(currLim);
 
-             //       currMaxSeekBar.setText(String.valueOf(settings.getInt("currentLim",32))+"A");
-                    currMaxSeekBar.setText(currLim.toString()+"A");
+                       currMaxSeekBar.setText(currLim.toString()+"A");
                     Log.i("TAG_", "onActivityResult: " +currentSeekBar.getMax());
 
                 }
@@ -65,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         controller = new Controller(this::SendCurrent); //Запуск запросов по таймеры
         Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(controller, 0, 5*1000);
+        timer.scheduleAtFixedRate(controller, 0, 10*1000);
 
         currentSeekBar = (SeekBar) findViewById(R.id.currentSeekBar);
         currentSeekBar.setMin(0);
@@ -87,9 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 activityResultLaunch.launch(intent);
                 break;
             }
-
         }
-
     }
 
 
@@ -101,6 +108,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         currSeekText.setText(String.valueOf(progress) +" A");
+        final String BASE_URL = "http://"+(String) App.getSetting(SettingsEnum.IP);
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        RestApi restApi = retrofit.create(RestApi.class);
+
+        Call<Current> call = restApi.setCur(new Current(progress));
+        call.enqueue(new Callback<Current>() {
+            @Override
+            public void onResponse(Call<Current> call, Response<Current> response) {
+                App.setCurrent(response.body());
+                SendCurrent(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Current> call, Throwable t) {
+
+            }
+        });
+
+
     }
 
     @Override

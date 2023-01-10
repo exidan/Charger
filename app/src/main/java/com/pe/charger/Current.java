@@ -8,7 +8,10 @@ public class Current {
     }
 
     public Current() {
-        this.cur = 16;
+        this.cur = 0;
+    }
+    public Current(Integer cur) {
+        this.cur = cur;
     }
 
     public void setCur(Integer cur) {

@@ -26,7 +26,7 @@
 
             <TextView
                 android:id="@+id/textView"
-                style="@style/TextStyle"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="IP:"
@@ -35,12 +35,14 @@
 
             <EditText
                 android:id="@+id/ip_edit"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="192.168.0.1"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:minHeight="48dp"
+                android:autofillHints="" />
 
         </LinearLayout>
 
@@ -51,11 +53,13 @@
 
             <TextView
                 android:id="@+id/textView5"
-                style="@style/TextStyle"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Ток (макс.):" />
+                android:text="Ток (макс.):"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/currentLimSetting"
@@ -64,7 +68,9 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="32"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:minHeight="48dp"
+                android:autofillHints="" />
         </LinearLayout>
 
     </LinearLayout>
