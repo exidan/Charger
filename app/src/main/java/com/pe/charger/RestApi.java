@@ -6,7 +6,7 @@ import retrofit2.http.POST;
 
 public interface RestApi {
 
-    @POST("/cur")
+    @POST("/getCur")
     Call<Current> getCur();
 
     @POST("/setCur")

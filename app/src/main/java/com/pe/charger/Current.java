@@ -1,27 +1,27 @@
 package com.pe.charger;
 
 public class Current {
-    Integer cur;
+    Integer currentValue;
 
     public Integer getCur() {
-        return cur;
+        return currentValue;
     }
 
     public Current() {
-        this.cur = 0;
+        this.currentValue = 0;
     }
     public Current(Integer cur) {
-        this.cur = cur;
+        this.currentValue = cur;
     }
 
     public void setCur(Integer cur) {
-        this.cur = cur;
+        this.currentValue = cur;
     }
 
     @Override
     public String toString() {
         return "Current{" +
-                "cur=" + cur +
+                "cur=" + currentValue +
                 '}';
     }
 
