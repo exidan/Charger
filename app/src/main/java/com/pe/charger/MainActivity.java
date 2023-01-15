@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         controller = new Controller(this::SendCurrent); //Запуск запросов по таймеры
         Timer timer = new Timer(true);
-        timer.scheduleAtFixedRate(controller, 0, 10*1000);
+        timer.scheduleAtFixedRate(controller, 0, 2*1000);
 
         currentSeekBar = (SeekBar) findViewById(R.id.currentSeekBar);
         currentSeekBar.setMin(0);
