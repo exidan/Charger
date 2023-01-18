@@ -48,6 +48,8 @@ public class MainFragment extends Fragment implements View.OnClickListener, Seek
     private Controller controller;
     private SeekBar currentSeekBar;
     private SharedPreferences settings;
+    private ImageButton imageButtonState;
+
 
     private String mParam1;
     private String mParam2;
@@ -87,10 +89,14 @@ public class MainFragment extends Fragment implements View.OnClickListener, Seek
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-     //   settings = v.getSharedPreferences("charger_sets",getActivity().MODE_PRIVATE);
 
-//        settingsButton =(ImageButton) findViewById(R.id.settings_butt);
-//        settingsButton.setOnClickListener(this);
+    //   settings = v.getSharedPreferences("charger_sets",getActivity().MODE_PRIVATE);
+
+    //        settingsButton =(ImageButton) findViewById(R.id.settings_butt);
+    //        settingsButton.setOnClickListener(this);
+
+
+
 
         currTextView = (TextView) getActivity().findViewById(R.id.current_txt);
 
@@ -106,20 +112,35 @@ public class MainFragment extends Fragment implements View.OnClickListener, Seek
         currentSeekBar.setMin(0);
         currentSeekBar.setMax((Integer)App.getSetting(SettingsEnum.CURR_LIM));
         currentSeekBar.setOnSeekBarChangeListener(this);
+        currentSeekBar.setProgress(App.getSettingInt(SettingsEnum.CURR_CHOSEN));
+
         currSeekText.setText(String.valueOf(currentSeekBar.getProgress())+" A");
+
+        imageButtonState = (ImageButton) v.findViewById(R.id.imageButtonState);
+
+        imageButtonState.setImageResource(App.getStateOn()?R.drawable.on_image:R.drawable.off_image);
+        imageButtonState.setOnClickListener(this);
 
         return v;
     }
 
     @Override
     public void onClick(View view) {
-
+        if (App.getStateOn()) {
+            App.setStateOn(false);
+        }
+        else {
+            App.setStateOn(true);
+        }
+        imageButtonState.setImageResource(App.getStateOn()?R.drawable.on_image:R.drawable.off_image);
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
         currSeekText.setText(String.valueOf(progress) +" A");
+
         final String BASE_URL = "http://"+(String) App.getSetting(SettingsEnum.IP);
+
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -166,5 +187,9 @@ public class MainFragment extends Fragment implements View.OnClickListener, Seek
         return false;
     }
 
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        App.putSetting(SettingsEnum.CURR_CHOSEN,currentSeekBar.getProgress()); //сохраним установленое значение тока
+    }
 }

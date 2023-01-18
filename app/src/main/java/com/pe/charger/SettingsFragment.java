@@ -1,5 +1,6 @@
 package com.pe.charger;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,13 +8,16 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.pe.charger.enums.SettingsEnum;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FooterFragment#newInstance} factory method to
+ * Use the {@link SettingsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FooterFragment extends Fragment {
+public class SettingsFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +28,10 @@ public class FooterFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FooterFragment() {
+    private SharedPreferences settings;
+    private EditText ipEditText, currentLimEditText;
+
+    public SettingsFragment() {
         // Required empty public constructor
     }
 
@@ -34,11 +41,11 @@ public class FooterFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment footer.
+     * @return A new instance of fragment SettingsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FooterFragment newInstance(String param1, String param2) {
-        FooterFragment fragment = new FooterFragment();
+    public static SettingsFragment newInstance(String param1, String param2) {
+        SettingsFragment fragment = new SettingsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +66,25 @@ public class FooterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_footer, container, false);
+      View  v = inflater.inflate(R.layout.fragment_settings, container, false);
+      //  settings = getSharedPreferences("charger_sets",MODE_PRIVATE);
+
+        ipEditText =(EditText) v.findViewById(R.id.ip_edit);
+        ipEditText.setText((String)App.getSetting(SettingsEnum.IP));
+
+        currentLimEditText = (EditText) v.findViewById(R.id.currentLimSetting);
+
+        currentLimEditText.setText(String.valueOf((Integer)App.getSetting(SettingsEnum.CURR_LIM)));
+
+        return v;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        App.putSetting(SettingsEnum.IP,ipEditText.getText().toString() );
+        //В int нормально преобразуется так как поле ввда только число
+       App.putSetting(SettingsEnum.CURR_LIM,Integer.valueOf(currentLimEditText.getText().toString()));
+
     }
 }

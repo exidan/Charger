@@ -79,14 +79,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        Timer timer = new Timer(true);
 //        timer.scheduleAtFixedRate(controller, 0, 2*1000);
 
-
-
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setOnItemSelectedListener(this);
 
     }
-
-
 
     @Override
     public void onClick(View v) {
@@ -152,18 +148,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
         switch (item.getItemId()){
             case  R.id.bottom_menu_settings:{
-                Intent intent = new Intent(MainActivity.this,SettingsActivity.class);
 
-                activityResultLaunch.launch(intent);
-                break;
+                fragmentTransaction.replace(R.id.fraime_container, new SettingsFragment());
+
+                 break;
             }
             case  R.id.bottom_menu_home:{
-                break;
+                fragmentTransaction.replace(R.id.fraime_container,new MainFragment() );
+                 break;
             }
         }
+        fragmentTransaction.commit();
 
+        item.setChecked(true);
 
         return false;
     }
