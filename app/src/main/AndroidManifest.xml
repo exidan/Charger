@@ -16,7 +16,8 @@
         >
 
         <activity android:name="com.pe.charger.SettingsActivity"></activity>
-        <activity android:name="com.pe.charger.MainActivity">
+        <activity android:name="com.pe.charger.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
